@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h1>My Posts</h1>
+{% for post in posts %}
+    <div class="post">
+        {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" style="max-height: 200px;">
+        {% endif %}
+        <h2>{{ post.title }}</h2>
+        <p><small>Status: {{ post.get_status_display }} | Created: {{ post.created_at|date:"F d, Y" }}</small></p>
+        <p>{{ post.content|truncatewords:20 }}</p>
+        <a href="{% url 'post_detail' post.slug %}" class="btn">View</a>
+        <a href="{% url 'post_edit' post.slug %}" class="btn">Edit</a>
+        <a href="{% url 'post_delete' post.slug %}" class="delete-btn">Delete</a>
+    </div>
+{% empty %}
+    <p>You haven't created any posts yet.</p>
+    <a href="{% url 'post_create' %}" class="btn">Create your first post</a>
+{% endfor %}
+{% endblock %}

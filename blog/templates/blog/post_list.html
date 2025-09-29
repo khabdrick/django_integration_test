@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h1>Blog Posts</h1>
+{% for post in posts %}
+    <div class="post">
+        {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+        {% endif %}
+        <h2><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h2>
+        <p><small>By {{ post.author.username }} on {{ post.created_at|date:"F d, Y" }}</small></p>
+        <p>{{ post.content|truncatewords:30 }}</p>
+    </div>
+{% empty %}
+    <p>No posts yet.</p>
+{% endfor %}
+{% endblock %}
